@@ -36,7 +36,7 @@ class TherapistSU extends React.Component{
                
                     localStorage.setItem('token', data.token)
                     this.props.profileInfo(data)
-                    this.props.history.push('/profile')
+                    this.props.history.push('/home')
                 
             }
 
