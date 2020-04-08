@@ -42,11 +42,14 @@ class Profile extends React.Component{
         }
       )
 
-        fetch(`http://localhost:3000/followers`, reqObj)
-        .then(resp => resp.json())
-        .then( followers => this.setState({
-            ...this.state, followers: followers.followers
-        }))
+        // fetch(`http://localhost:3000/clients`, reqObj)
+        // .then(resp => resp.json())
+        // .then( data => console.log(data)
+        //         // non_followers => this.setState({
+        //         // ...this.state, non_followers: non_followers
+        //         // })
+    
+        // )
 
         
 
@@ -136,6 +139,11 @@ class Profile extends React.Component{
         })
     }
     
+    renderDefaultState = () => {
+        this.setState({
+            ...this.state, renderState: true
+        })
+    }
     
     
     
@@ -143,7 +151,7 @@ class Profile extends React.Component{
     render(){
         
         const { therapist } = this.state.profileInfo
-        console.log(this.props.profileState.new_clients)
+        
 
         if (this.state.renderState === true){
             return(
@@ -177,7 +185,7 @@ class Profile extends React.Component{
                          </form>
                      </div>
 
-                     <SearchBar new_clients = {this.props.profileState.new_clients}/>
+                     <SearchBar/>
     
                     
     
@@ -192,15 +200,19 @@ class Profile extends React.Component{
 
         else if(this.state.renderState === 'edit'){
             return (
-                <form onSubmit= {this.saveEdit} action="" method="post">
-                    <input onChange = {(event) => this.editData(event)} type="text" name="bio" id="" placeholder={this.state.profileInfo.therapist.bio}/>
+                <div>
 
-                    <input onChange = {(event) => this.editData(event)} type="text" name="location" id="" placeholder={this.state.profileInfo.therapist.location}/>
-
-                    <input onChange = {(event) => this.editData(event)} type="text" name="services" id="" placeholder={this.state.profileInfo.therapist.services}/>
-                    <input onChange = {(event) => this.editData(event)} type="text" name="specialties" id="" placeholder={this.state.profileInfo.therapist.specialties}/>
-                    <input onChange = {(event) => this.editData(event)} type="submit" placeholder="save"/>
-                </form>
+                    <form onSubmit= {this.saveEdit} action="" method="post" value="save" >
+                        <input onChange = {(event) => this.editData(event)} type="text" name="bio" id="" placeholder={this.state.profileInfo.therapist.bio}/>
+    
+                        <input onChange = {(event) => this.editData(event)} type="text" name="location" id="" placeholder={this.state.profileInfo.therapist.location}/>
+    
+                        <input onChange = {(event) => this.editData(event)} type="text" name="services" id="" placeholder={this.state.profileInfo.therapist.services}/>
+                        <input onChange = {(event) => this.editData(event)} type="text" name="specialties" id="" placeholder={this.state.profileInfo.therapist.specialties}/>
+                        <input type="submit" placeholder="save" value="save" />
+                    </form>
+                    <button onClick = {this.renderDefaultState} >Back</button>
+                </div>
             )
         }
 

@@ -4,15 +4,32 @@ class SearchBar extends React.Component{
     constructor(){
         super()
         this.state = {
-            
+            mounted: false,
+            non_followers: []
         }
     }
 
 
+    componentDidMount(){
+        const token = localStorage.getItem('token')
+        const reqObj = {
+            method: 'GET',
+            headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`}
+        }
+        fetch(`http://localhost:3000/clients`, reqObj)
+        .then(resp => resp.json())
+        .then(data => {
+            this.setState({
+                mounted:true, non_followers: data
+            })
+        })
+
+        
+    }
 
 
     non_follow_clients = () => {
-        return this.props.new_clients.map(
+        return this.state.non_followers.map(
             client => {
                 return <li key={client.user.id}>{client.user.full_name}, occupation: {client.occupation}, hobbies: {client.hobbies}
                      <button name={client.id} onClick={ (event) => this.follow(event)}>follow</button>
@@ -28,7 +45,7 @@ class SearchBar extends React.Component{
             headers:{'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`},
             body: JSON.stringify({client: event.target.name})
         }
-        fetch('http://localhost:3000/followers', postObj)
+        fetch('http://localhost:3000/clients', postObj)
         .then(resp => resp.json() )
         .then( data => console.log(data))
     }
@@ -36,7 +53,10 @@ class SearchBar extends React.Component{
 
 
     render(){
-        console.log(this.props.new_clients)
+        
+        if(this.state.mounted){
+
+
         return(
             <div>
                 <h1>Search Bar</h1>
@@ -63,6 +83,12 @@ class SearchBar extends React.Component{
                      </div>
 
                  </div>
+            </div>
+            )
+        }
+        else return(
+            <div>
+                <h2>Loading</h2>
             </div>
         )
     }

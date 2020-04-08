@@ -45,6 +45,10 @@ class Login extends React.Component{
         )
     }
 
+    goSignUp = () => {
+        this.props.history.push('/signup')
+    }
+
     
     
 

@@ -8,13 +8,14 @@ import ClientSU from './components/ClientSU'
 import Profile from './components/Profile'
 import Posts from './components/Posts'
 import NavBar from './components/NavBar'
+import Followers from './components/Followers'
 
 class App extends React.Component {
   constructor(){
     super()
     this.state = {
       profileInfo: {},
-      new_clients: []
+      non_followers: []
     }
   }
 
@@ -35,19 +36,19 @@ class App extends React.Component {
         if(data.error){
           alert(data.error)}
           else{
-            
+           
             this.setState({
               profileInfo: data
             })
           }
         }
       )
-
+      
       fetch(`http://localhost:3000/clients`, reqObj)
       .then(resp => resp.json())
       .then(data => {
         this.setState({
-          new_clients: data
+          non_followers: data
         })
       })
     }
@@ -72,7 +73,7 @@ class App extends React.Component {
   // Might can conditionally render shit in the NavBar also. 
 
   render(){
-    // console.log(this.state)
+    
     return(
       <div>
         <Router>
@@ -84,7 +85,7 @@ class App extends React.Component {
             <Route exact path='/signup/therapist' render={ (props) => <TherapistSU {...props} profileInfo={this.profileInfo} />} /> 
             <Route exact path='/signup/client' component={ClientSU} /> 
             <Route exact path='/home' render={ (props) => <Profile {...props} profileState = {this.state}/>} />
-
+            <Route exact path='/followers' render={ (props) => <Followers {...props} profileState = {this.state}/>} />
             <Route exact path='/posts' render={ (props) => <Posts {...props} profileState = {this.state}/>} />
             </Switch>
             

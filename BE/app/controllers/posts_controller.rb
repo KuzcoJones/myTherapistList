@@ -24,13 +24,33 @@ class PostsController < ApplicationController
     end
 
     def update
+        token = request.headers[:Authorization].split(' ')[1]
+        decoded_token = JWT.decode(token, 'secret', true, { algorithm: 'HS256'})
+
+        user_id = decoded_token[0]['user_id']
+
+        user = User.find(user_id)
+
+        # byebug
         post = Post.find(params['id'])
-        post.update(post_params)
+        post.update(user: user, body: params['postBody'])
+        posts = Post.select{|post| post.user_id === user_id}
+        render json: {posts: posts}
     end
 
     def destroy 
-        post = Post.find(params[id])
+        token = request.headers[:Authorization].split(' ')[1]
+        # byebug
+        decoded_token = JWT.decode(token, 'secret', true, { algorithm: 'HS256'})
+
+        user_id = decoded_token[0]['user_id']
+        user = User.find(user_id)
+
+        
+        post = Post.find(params['id'])
         post.destroy
+        posts = Post.select{|post| post.user_id === user_id}
+        render json: {posts: posts}
     end
 
     private 

@@ -2,10 +2,10 @@ import React from 'react'
 import {NavLink} from 'react-router-dom'
 
 const link = {
-    background: 'pink',
+    background: 'grey',
     width: '100px',
     margin: '6px 6px 6px 6px',
-    color: 'blue'
+    color: 'red'
 }
 
 class NavBar extends React.Component{
@@ -13,15 +13,15 @@ class NavBar extends React.Component{
         return(
         <div>
 
-            <NavLink to='/' exact style={link}>
+            <NavLink to='/home' exact style={link}>
                 Home
             </NavLink>
 
-            <NavLink to='/'exact style={link} >
-                Therapists
+            <NavLink to='/followers'exact style={link} >
+                Followers
             </NavLink>
 
-            <NavLink to='/' exact style={link} >
+            <NavLink to='/posts' exact style={link} >
                 Posts
             </NavLink>
 

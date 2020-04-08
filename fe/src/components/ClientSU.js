@@ -17,34 +17,34 @@ class ClientSU extends React.Component{
 
     handleForm = (event) => {
         event.preventDefault()
-        console.log(this.state)
+        const token = localStorage.getItem('token')
        
-        // const loginObj = {
-        //     method: 'POST',
-        //     headers: {'Content-Type': 'application/json'},
-        //     body: JSON.stringify(this.state)
-        // }
+        const reqObj = {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`},
+            body: JSON.stringify(this.state)
+        }
     
-        // fetch('http://localhost:3000/signup', loginObj)
-        // .then(resp => resp.json())
-        // .then(data => {
-        //     // recieve data back from login user 
-        //     // set token to local storage
-        //     // redirect to the user profile with that data 
+        fetch('http://localhost:3000/clients', reqObj)
+        .then(resp => resp.json())
+        .then(data => {
+            // recieve data back from login user 
+            // set token to local storage
+            // redirect to the user profile with that data 
 
-        //     if(data.error){
-        //         alert(data.error)}
-        //     else { 
-        //         if (this.state.isTherapist){this.props.therapistFetch(this.state)} 
-        //             localStorage.setItem('token', data.token)
-        //             this.props.userInfo(data)
+            if(data.error){
+                alert(data.error)}
+            else { 
+                 
+                    localStorage.setItem('token', data.token)
+                    this.props.userInfo(data)
                     this.props.history.push('/home')
                    
-        //     }
+            }
 
             
-        //     }
-        // ) 
+            }
+        ) 
     
 }
 
