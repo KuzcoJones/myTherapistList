@@ -31,6 +31,7 @@ class AuthController < ApplicationController
         end
     
     def show 
+        
         token = request.headers[:Authorization].split(' ')[1]
         decoded_token = JWT.decode(token, 'secret', true, { algorithm: 'HS256'})
 
@@ -42,7 +43,7 @@ class AuthController < ApplicationController
         if user 
             if user.isTherapist 
             therapist = Therapist.find_by(user: user)
-            render json: { id: user.id, username: user.username, therapist: therapist}
+            render json: { id: user.id, isTherapist: user.isTherapist, username: user.username, therapist: therapist}
             else
                 client = Client.find_by(user: user)
                 

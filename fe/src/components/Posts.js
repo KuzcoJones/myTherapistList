@@ -1,4 +1,5 @@
 import React from 'react'
+import NavBar from './NavBar'
 // list of posts from therapsit to edit 
 // new client search form
 
@@ -52,7 +53,7 @@ class Posts extends React.Component{
             alert(data.error)}
             else{
               this.setState({
-                ...this.state, posts: data.posts, 
+                ...this.state, posts: data.posts, rendered: true
               })
             //   this.setState({
             //       ...this.state, rendered: false
@@ -128,6 +129,7 @@ class Posts extends React.Component{
         if (this.state.renderState){
             return(
                 <div>
+                    <NavBar/>
                     <h1>
                         User Saved Posts
                     </h1>

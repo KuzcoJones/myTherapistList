@@ -9,6 +9,11 @@ const link = {
 }
 
 class NavBar extends React.Component{
+
+    exitApp = () => {
+        localStorage.removeItem('token')
+    }
+
     render(){
         return(
         <div>
@@ -25,8 +30,10 @@ class NavBar extends React.Component{
                 Posts
             </NavLink>
 
-             <NavLink to='/' exact style={link} >
-                Logout
+        
+
+             <NavLink onClick = {this.exitApp} to='/' exact style={link} >
+                Logout 
             </NavLink>
 
 

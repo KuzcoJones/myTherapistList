@@ -1,4 +1,6 @@
 import React from 'react'
+import NavBar from './NavBar'
+import { Card, Button, CardGroup, Accordion} from 'react-bootstrap'
 // needs to have all of the users that follow this user. 
 // Each user or client needs a button that remove from follower list
 // Find new clients components with follow button
@@ -33,6 +35,7 @@ class Followers extends React.Component{
     deleteFollow = (event) => {
         const token = localStorage.getItem('token')
         const {therapist} = this.props.profileState.profileInfo
+       
         const reqObj = {
             method: 'DELETE',
             headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`}
@@ -70,28 +73,64 @@ class Followers extends React.Component{
     
         return this.state.followers.map(
             follower => {
-                    return <li>{follower.user.full_name} <br/>
-                        occupation: {follower.occupation} <br/>
-                        hobbies: {follower.hobbies} <br/>
-                        bio: {follower.bio} 
-                        <button name ={find_follower_id(follower.followers)} onClick={(event) => this.deleteFollow(event)} >Unfollow</button>
+                    return <Accordion> 
+                            <Card style={{ width: '18rem' }}>
+
+                        <Card.Header> {follower.user.full_name} </Card.Header>
+
+                        <Card.Header>
+                        <Accordion.Toggle as={Card.Header}  eventKey="0">
+                            Occupation
+                        </Accordion.Toggle >
+                        </Card.Header>
+                        <Accordion.Collapse eventKey="0">
+                        <Card.Body>{follower.occupation} </Card.Body>
+                        </Accordion.Collapse>
+      
+                        <Card.Header>
+                        <Accordion.Toggle as={Card.Header}  eventKey="0">
+                            Hobbies
+                        </Accordion.Toggle >
+                        </Card.Header>
+                        <Accordion.Collapse eventKey="0">
+                        <Card.Body>{follower.hobbies} </Card.Body>
+                        </Accordion.Collapse>
+    
+                        <Card.Header>
+                        <Accordion.Toggle as={Card.Header}  eventKey="0">
+                            Bio
+                        </Accordion.Toggle >
+                        </Card.Header>
+                        <Accordion.Collapse eventKey="0">
+                        <Card.Body>{follower.bio} </Card.Body>
+                        </Accordion.Collapse>
+
+
+
+                        <Button name ={find_follower_id(follower.followers)} onClick={(event) => this.deleteFollow(event)} >Unfollow</Button>
                         <hr/>
-                    </li>
+
+
+                    </Card>
+                </Accordion>
                 }
             )
     }
 
 
     render(){ 
-        // console.log(this.state)
+        console.log(this.props)
         if (this.state.renderState){
             return(
                 <div>
+                    <NavBar/>
+                <div>
                     <h1>Your Clients</h1>
-                    <ul>
+                    <CardGroup>
                         {this.renderFollowers()}
-                    </ul>
+                    </CardGroup>
                 </div>
+            </div>
             )
         }
 

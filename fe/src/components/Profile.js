@@ -1,5 +1,7 @@
 import React from 'react'
 import SearchBar from './SearchBar'
+import {Jumbotron, Image} from 'react-bootstrap'
+import NavBar from './NavBar'
 
 
 
@@ -149,24 +151,28 @@ class Profile extends React.Component{
     
     
     render(){
-        console.log(this.state)
         const { therapist } = this.state.profileInfo
-        
-
         if (this.state.renderState === true){
             return(
-                    
+                    <div>
+                        <NavBar/>
                 <div>
                     <button onClick ={this.renderEdit} >Edit</button>
                      <div> 
-                     <div className="profile-info" >
-                        <h2>Bio: {this.state.profileInfo.therapist.bio}</h2>
-                        <h2>Location: {this.state.profileInfo.therapist.location}</h2>
-                        <h2>Services: {this.state.profileInfo.therapist.services}</h2>
-                        <h2>Specialties: {this.state.profileInfo.therapist.specialties}</h2>
+                     <Jumbotron className="profile-info" >
+                        
+                        <Image src="holder.js/171x180" rounded />
+
+                        <h3>Bio: {this.state.profileInfo.therapist.bio}</h3>
+
+                        <h3>Location: {this.state.profileInfo.therapist.location}</h3>
+
+                        <h3>Services: {this.state.profileInfo.therapist.services}</h3>
+
+                        <h3>Specialties: {this.state.profileInfo.therapist.specialties}</h3>
                         
                         
-                     </div>
+                     </Jumbotron>
     
                      <div id="newsfeed-timeline" >
                      {/* map through list of followers and  */}
@@ -185,14 +191,14 @@ class Profile extends React.Component{
                          </form>
                      </div>
 
-                     <SearchBar/>
+                     <SearchBar />
     
                     
     
     
                  </div>
-    
                 </div>
+             </div>
             )
 
         

@@ -30,8 +30,9 @@ class SearchBar extends React.Component{
     non_follow_clients = () => {
         return this.state.non_followers.map(
             client => {
-                return <li key={client.user.id}>{client.user.full_name}, occupation: {client.occupation}, hobbies: {client.hobbies}
+                return <li key={client.user.id}>{client.user.full_name}, occupation: {client.occupation}, 
                      <button name={client.id} onClick={ (event) => this.follow(event)}>follow</button>
+                     <hr/> 
                         </li>
             }
         )
@@ -56,10 +57,21 @@ class SearchBar extends React.Component{
         })
     }
 
+    filterClients = (event) => {
+        // console.log(this.state.non_followers, event.target.value)
+        // console.log(follower.occupation, follower.hobbies, follower.user.full_name)
+
+        const filtered_followers = this.state.non_followers.filter(follower => {
+            return follower.occupation.includes(event.target.value) || follower.user.full_name.includes(event.target.value) 
+        } )
+
+     this.setState({...this.state, non_followers: filtered_followers})
+    }
+
 
 
     render(){
-        
+        console.log(this.state)
         if(this.state.mounted){
 
 
@@ -69,8 +81,10 @@ class SearchBar extends React.Component{
 
                  <div className="client-search">
                          {/* fetch to update list */}
+
+
                      <form action="" method="get">
-                         <input type="text" name="client-search" id=""/>
+                         <input onChange= {(event) => this.filterClients(event)} type="text" name="client-search" id=""/>
                          {/* search scroll box for client list */}
                      </form>
 
