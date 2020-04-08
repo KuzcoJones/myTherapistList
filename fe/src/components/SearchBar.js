@@ -27,7 +27,6 @@ class SearchBar extends React.Component{
         
     }
 
-
     non_follow_clients = () => {
         return this.state.non_followers.map(
             client => {
@@ -38,6 +37,8 @@ class SearchBar extends React.Component{
         )
     }
 
+
+
     follow = (event) => {
         const token = localStorage.getItem('token')
         const postObj = {
@@ -45,9 +46,14 @@ class SearchBar extends React.Component{
             headers:{'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`},
             body: JSON.stringify({client: event.target.name})
         }
-        fetch('http://localhost:3000/clients', postObj)
+        fetch('http://localhost:3000/followers', postObj)
         .then(resp => resp.json() )
-        .then( data => console.log(data))
+        .then( data => {
+                this.setState({
+                    ...this.state, non_followers: data
+                })
+           
+        })
     }
 
 

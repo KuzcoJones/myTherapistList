@@ -33,10 +33,11 @@ class TherapistSU extends React.Component{
             if(data.error){
                 alert(data.error)}
             else { 
-                if (this.state.isTherapist){this.props.therapistFetch(this.state)} 
+               
                     localStorage.setItem('token', data.token)
                     this.props.profileInfo(data)
                     this.props.history.push('/profile')
+                
             }
 
             
@@ -46,7 +47,7 @@ class TherapistSU extends React.Component{
 }
 
     render(){
-
+        console.log(this.props)
         
         return(
             <div>

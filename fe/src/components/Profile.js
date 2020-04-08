@@ -149,7 +149,7 @@ class Profile extends React.Component{
     
     
     render(){
-        
+        console.log(this.state)
         const { therapist } = this.state.profileInfo
         
 

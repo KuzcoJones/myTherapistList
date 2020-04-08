@@ -36,7 +36,9 @@ class Signup extends React.Component{
     
         fetch('http://localhost:3000/signup', loginObj)
         .then(resp => resp.json())
-        .then(data => {console.log(data)
+        .then(data => {
+        
+            
         //     // recieve data back from login user 
         //     // set token to local storage
         //     // redirect to the user profile with that data 

@@ -43,30 +43,38 @@ class Followers extends React.Component{
 
         fetch(`http://localhost:3000/followers/${event.target.name}`, reqObj)
         .then( resp => resp.json())
-        .then( data => console.log(data))
+        .then( data => {
+                this.setState({
+                    ...this.state, followers: data
+                })
+            // console.log(data)
+
+                    }
+                )
         
-    }
+            }
 
-    find_follower_id = (followers) =>{
-
-        const followerObj = followers.find(
-            follow => {
-                 return follow.therapist_id === this.props.profileState.profileInfo.therapist.id
-            } 
-        )
-        return followerObj.id
-    }
-
+    
 
 
     renderFollowers = () => {
+       const find_follower_id = (followers) =>{
+
+            const followerObj = followers.find(
+                follow => {
+                     return follow.therapist_id === this.props.profileState.profileInfo.therapist.id
+                } 
+            )
+            return followerObj.id
+        }
+    
         return this.state.followers.map(
             follower => {
                     return <li>{follower.user.full_name} <br/>
                         occupation: {follower.occupation} <br/>
                         hobbies: {follower.hobbies} <br/>
                         bio: {follower.bio} 
-                        <button name ={this.find_follower_id(follower.followers)} onClick={(event) => this.deleteFollow(event)} >Unfollow</button>
+                        <button name ={find_follower_id(follower.followers)} onClick={(event) => this.deleteFollow(event)} >Unfollow</button>
                         <hr/>
                     </li>
                 }

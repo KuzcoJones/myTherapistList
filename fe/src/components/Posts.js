@@ -94,6 +94,12 @@ class Posts extends React.Component{
           })
 
       }
+
+      back = () => {
+          this.setState({
+              ...this.state, renderState: true
+          })
+      }
     
     renderPost = () => {
         if (this.state.renderState === true){
@@ -108,7 +114,9 @@ class Posts extends React.Component{
                     return <li>created: {post.created_at} <br/> <form name={post.id} onSubmit={(event) => this.saveEdit(event)}>
                         <input onChange={(event) => this.setEditBody(event)} type="text" name="edit_body" id="" placeholder={post.body} />
                         <input type="submit" value="Save"/>
-                    </form></li>
+                    </form>
+                    <button onClick = {this.back} >Back</button>
+                    </li>
             })
              }
         }

@@ -42,7 +42,7 @@ class AuthController < ApplicationController
         if user 
             if user.isTherapist 
             therapist = Therapist.find_by(user: user)
-            render json: { id: user.id, username: user.username, token: token, therapist: therapist}
+            render json: { id: user.id, username: user.username, therapist: therapist}
             else
                 client = Client.find_by(user: user)
                 
