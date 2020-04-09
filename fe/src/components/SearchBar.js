@@ -5,7 +5,8 @@ class SearchBar extends React.Component{
         super()
         this.state = {
             mounted: false,
-            non_followers: []
+            non_followers: [],
+            filteredList: []
         }
     }
 
@@ -28,14 +29,28 @@ class SearchBar extends React.Component{
     }
 
     non_follow_clients = () => {
-        return this.state.non_followers.map(
-            client => {
-                return <li key={client.user.id}>{client.user.full_name}, occupation: {client.occupation}, 
-                     <button name={client.id} onClick={ (event) => this.follow(event)}>follow</button>
-                     <hr/> 
-                        </li>
-            }
-        )
+        if (this.state.filteredList.length > 0){
+
+            return this.state.filteredList.map(
+                client => {
+                    return <li key={client.user.id}>{client.user.full_name}, occupation: {client.occupation}, 
+                         <button name={client.id} onClick={ (event) => this.follow(event)}>follow</button>
+                         <hr/> 
+                            </li>
+                }
+            )
+        }
+
+        else{
+            return this.state.non_followers.map(
+                client => {
+                    return <li key={client.user.id}>{client.user.full_name}, occupation: {client.occupation}, 
+                         <button name={client.id} onClick={ (event) => this.follow(event)}>follow</button>
+                         <hr/> 
+                            </li>
+                }
+            )
+        }
     }
 
 
@@ -60,12 +75,26 @@ class SearchBar extends React.Component{
     filterClients = (event) => {
         // console.log(this.state.non_followers, event.target.value)
         // console.log(follower.occupation, follower.hobbies, follower.user.full_name)
+        const currentList = this.state.non_followers
+        let newList = []
+        if (event.target.value !== ""){
 
-        const filtered_followers = this.state.non_followers.filter(follower => {
-            return follower.occupation.includes(event.target.value) || follower.user.full_name.includes(event.target.value) 
-        } )
+             newList = this.state.non_followers.filter(follower => {
+                 const occupation = follower.occupation.toLowerCase();
 
-     this.setState({...this.state, non_followers: filtered_followers})
+                 const full_name = follower.user.full_name.toLowerCase()
+
+                 const filter = event.target.value.toLowerCase();
+
+                return occupation.includes(filter) || full_name.includes(filter) 
+            } )
+            
+        }
+        else {
+             newList = this.state.non_followers 
+            }
+
+     this.setState({...this.state, filteredList: newList})
     }
 
 
