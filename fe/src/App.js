@@ -77,7 +77,7 @@ class App extends React.Component {
   // Might can conditionally render shit in the NavBar also. 
 
   render(){
-    
+    // console.log(this.state)
     return(
       <div>
         <Router>

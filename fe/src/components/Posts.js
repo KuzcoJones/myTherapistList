@@ -1,7 +1,6 @@
 import React from 'react'
 import NavBar from './NavBar'
-// list of posts from therapsit to edit 
-// new client search form
+// to-do only edit one post at a time
 
 class Posts extends React.Component{
     constructor(){
@@ -106,7 +105,7 @@ class Posts extends React.Component{
         if (this.state.renderState === true){
 
             return this.state.posts.map( post => {
-                        return <li>created: {post.created_at} <br/> {post.body}  <button name= {post.id} onClick= {(event) => this.deletePost(event)}>delete</button> <button onClick={this.editPost}>edit</button></li>
+                        return <li data-id = {post.id} >created: {post.created_at} <br/> {post.body}  <button name= {post.id} onClick= {(event) => this.deletePost(event)}>delete</button> <button data-id = {post.id} onClick={this.editPost}>edit</button></li>
                 })
              }
 

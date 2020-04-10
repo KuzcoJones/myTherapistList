@@ -8,19 +8,23 @@ class AuthController < ApplicationController
         if user && user.authenticate(params[:password])
             # byebug
             if user.isTherapist 
-                payload = { user_id: user.id, isTherapist: user.isTherapist }
+                payload = { user_id: user.id }
                 
                 token = JWT.encode(payload, 'secret', 'HS256')
                 therapist = Therapist.find_by(user: user)
                 # render json: { id: user.id, isTherapist: user.isTherapist, username: user.username, therapist_id: therapist.id, token: token}
                 
-                render json: {token: token, therapist: therapist}
+                render json: {token: token, isTherapist: user.isTherapist, therapist: therapist}
                 
                 
 
             else
+
+                payload = { user_id: user.id}
                 client = Client.find_by(user: user)
-            render json: { id: user.id, isTherapist: user.isTherapist, username: user.username, client_id: client.id, token: token}
+                token = JWT.encode(payload, 'secret', 'HS256')
+
+            render json: { token: token, isTherapist: user.isTherapist, client: client}
             
             end
             
@@ -33,7 +37,10 @@ class AuthController < ApplicationController
     def show 
         
         token = request.headers[:Authorization].split(' ')[1]
-        decoded_token = JWT.decode(token, 'secret', true, { algorithm: 'HS256'})
+        # byebug
+
+        # JWT.decode(token, 'my_s3cr3t', true, algorithm: 'HS256')
+        decoded_token = JWT.decode(token, 'secret', true, algorithm: 'HS256')
 
         user_id = decoded_token[0]['user_id']
         isTherapist = decoded_token[1]['isTherapist']
@@ -41,13 +48,18 @@ class AuthController < ApplicationController
         user = User.find(user_id)
 
         if user 
+
             if user.isTherapist 
+
             therapist = Therapist.find_by(user: user)
+
+            # make therapist and client, current_user to make it
             render json: { id: user.id, isTherapist: user.isTherapist, username: user.username, therapist: therapist}
+
             else
+
                 client = Client.find_by(user: user)
-                
-                render json: { id: user.id, username: user.username, token: token, client: client}
+                render json: { id: user.id, isTherapist: user.isTherapist, username: user.username, client: client}
             end
         else
             render json: {error: 'Invalid Token'}, status: 401

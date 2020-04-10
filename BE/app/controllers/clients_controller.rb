@@ -25,8 +25,19 @@ class ClientsController < ApplicationController
                 )
         else
             client = Client.find_by(user: user)
-            new_therapist_list = Follower.select{ |follow| follow.client_id != client.id }
-            render json: {new_therapist_list: new_therapist_list}
+            
+            followers_list = Follower.select{ |follow| follow.client_id === client.id }.uniq
+
+            followed_therapist_list = followers_list.map{ |follow| follow.therapist_id }
+
+            all_users = Therapist.all.reject {|therapist| followed_therapist_list.include? therapist.id }
+
+           
+
+            render json: all_users.to_json(
+                only: [:id, :location, :specialties, :services],
+                include: [user: {only: [:username, :full_name, :isTherapist]}]
+            )
         end
 
         # clients  = Client.all
@@ -45,13 +56,20 @@ class ClientsController < ApplicationController
 
         user = User.find(user_id)
 # byebug
-        client = Client.create(user:user, hobbies: params['hobbies'], occupation: params['occupation'], bio: params['bio'])
+        client = Client.create!(user: user, hobbies: params['hobbies'], occupation: params['occupation'], bio: params['bio'])
 
-        render json: client.to_json(
-            only: [:id, :hobbies, :occupation, :bio],
-            include: [user: {only: [:username, :full_name, :isTherapist]}, followers: {only: [:client_id, :therapist_id]}]
-        )
+        payload = { user_id: user.id, isTherapist: user.isTherapist, client_id: client.id}
+        
+        token = JWT.encode(payload, 'secret', 'HS256')
+
+        render json: {id: user.id, isTherapist: user.isTherapist, username: user.username, client_id: client.id, token: token}
+        
+        # client.to_json(
+        #     only: [:id, :hobbies, :occupation, :bio],
+        #     include: [user: {only: [:username, :full_name, :isTherapist]}, followers: {only: [:client_id, :therapist_id]}]
+        # )
     end
+
 
     def show
         client = Client.find(params['id'])

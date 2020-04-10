@@ -22,9 +22,16 @@ class FollowersController < ApplicationController
         #     include: [user: {only: [:username, :full_name, :isTherapist]}, followers: {only: [:id, :client_id, :therapist_id]}]
         # )
         else
+            # byebug
             client = Client.find_by(user: user)
-            followers = Follower.select{|follow| follow.therapist_id === therapist.id}
-            render json: {followers: followers}
+            follows = Follower.select{|follow| follow.client_id === client.id }
+            # byebug
+            therapist_followers = follows.map{ |follower| follower.therapist_id };
+            followers = therapist_followers.map{ |id| Therapist.find(id)};
+            render json: followers.to_json(
+                only: [:id, :location, :specialties, :services, :bio],
+                include: [user: {only: [:username, :full_name, :isTherapist]}, followers: {only: [:id, :client_id, :therapist_id]}]
+            )
         end
 
        
@@ -52,8 +59,17 @@ class FollowersController < ApplicationController
                     include: [user: {only: [:username, :full_name, :isTherapist]}]
                 )
         else
+            # byebug
             client = Client.find_by(user:user)
-            follower = Follower.create!(therapist: params['therapist'], client: client)
+            follower = Follower.create!(therapist_id: params['therapist_id'], client: client)            
+            followers_list = Follower.select{ |follow| follow.client_id === client.id }.uniq
+            followed_therapists_list = followers_list.map{ |follow| follow.therapist_id }
+            all_therapists = Therapist.all.reject {|client| followed_therapists_list.include? client.id }
+
+            render json: all_therapists.to_json(
+                only: [:id, :hobbies, :occupation, :bio],
+                include: [user: {only: [:username, :full_name, :isTherapist]}]
+            )
         end    
     end
 
@@ -85,6 +101,7 @@ class FollowersController < ApplicationController
     end
 
     def destroy
+        # byebug
         token = request.headers[:Authorization].split(' ')[1]
         decoded_token = JWT.decode(token, 'secret', true, { algorithm: 'HS256'})
         user_id = decoded_token[0]['user_id']
@@ -105,7 +122,25 @@ class FollowersController < ApplicationController
                     include: [user: {only: [:username, :full_name, :isTherapist]}, followers: {only: [:id, :client_id, :therapist_id]}]
                 )
 
+            else
+                # byebug
+                follower = Follower.find(params['id'])
+            follower.delete
+
+            client = Client.find_by(user: user)            
+            follows = Follower.select{|follow| follow.client_id === client.id }
+            therapist_followers = follows.map{ |follower| follower.therapist_id}
+    
+            followers = therapist_followers.map{ |id| Therapist.find(id)}
+    
+    # byebug
+                render json: followers.to_json(
+                    only: [:id, :location, :services, :bio, :specialties],
+                    include: [user: {only: [:username, :full_name, :isTherapist]}, followers: {only: [:id, :client_id, :therapist_id]}]
+                )
             end
+
+            
      end
 
 

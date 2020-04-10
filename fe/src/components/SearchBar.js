@@ -17,9 +17,11 @@ class SearchBar extends React.Component{
             method: 'GET',
             headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`}
         }
+
         fetch(`http://localhost:3000/clients`, reqObj)
         .then(resp => resp.json())
         .then(data => {
+            console.log("fetched data", data)
             this.setState({
                 mounted:true, non_followers: data
             })
@@ -29,47 +31,97 @@ class SearchBar extends React.Component{
     }
 
     non_follow_clients = () => {
-        if (this.state.filteredList.length > 0){
+        if (this.props.profileInfo.isTherapist === true){
 
-            return this.state.filteredList.map(
-                client => {
-                    return <li key={client.user.id}>{client.user.full_name}, occupation: {client.occupation}, 
-                         <button name={client.id} onClick={ (event) => this.follow(event)}>follow</button>
-                         <hr/> 
-                            </li>
-                }
-            )
+            if (this.state.filteredList.length > 0){
+    
+                return this.state.filteredList.map(
+                    client => {
+                        return <li key={client.user.id}>{client.user.full_name}, occupation: {client.occupation}, 
+                             <button name={client.id} onClick={ (event) => this.follow(event)}>follow</button>
+                             <hr/> 
+                                </li>
+                    }
+                )
+            }
+            else{
+                return this.state.non_followers.map(
+                    client => {
+                        return <li key={client.user.id}>{client.user.full_name}, occupation: {client.occupation}, 
+                             <button name={client.id} onClick={ (event) => this.follow(event)}>follow</button>
+                             <hr/> 
+                                </li>
+                    }
+                )
+            }
         }
 
-        else{
-            return this.state.non_followers.map(
-                client => {
-                    return <li key={client.user.id}>{client.user.full_name}, occupation: {client.occupation}, 
-                         <button name={client.id} onClick={ (event) => this.follow(event)}>follow</button>
-                         <hr/> 
-                            </li>
+        else {
+                if (this.state.filteredList.length > 0){
+        
+                    return this.state.filteredList.map(
+                        client => {
+                            return <li key={client.user.id}>{client.user.full_name}, occupation: {client.occupation}, 
+                                 <button name={client.id} onClick={ (event) => this.follow(event)}>follow</button>
+                                 <hr/> 
+                                    </li>
+                        }
+                    )
                 }
-            )
+                else{
+                    return this.state.non_followers.map(
+                        client => {
+                            return <li key={client.user.id}>{client.user.full_name}, occupation: {client.occupation}, 
+                                 <button name={client.id} onClick={ (event) => this.follow(event)}>follow</button>
+                                 <hr/> 
+                                    </li>
+                        }
+                    )
+                }
+            
         }
+
     }
 
 
 
     follow = (event) => {
-        const token = localStorage.getItem('token')
-        const postObj = {
-            method: "POST",
-            headers:{'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`},
-            body: JSON.stringify({client: event.target.name})
+        if (this.props.profileInfo.isTherapist === true){
+
+            const token = localStorage.getItem('token')
+            const postObj = {
+                method: "POST",
+                headers:{'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`},
+                body: JSON.stringify({client: event.target.name})
+            }
+            fetch('http://localhost:3000/followers', postObj)
+            .then(resp => resp.json() )
+            .then( data => { console.log("fetch back from follow action",data)
+                    this.setState({
+                        ...this.state, non_followers: data
+                    })
+               
+            })
         }
-        fetch('http://localhost:3000/followers', postObj)
-        .then(resp => resp.json() )
-        .then( data => {
-                this.setState({
-                    ...this.state, non_followers: data
-                })
-           
-        })
+
+        else{
+            // console.log(event.target.name)
+            const token = localStorage.getItem('token')
+            const postObj = {
+                method: "POST",
+                headers:{'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`},
+                body: JSON.stringify({therapist_id: event.target.name})
+            }
+            fetch('http://localhost:3000/followers', postObj)
+            .then(resp => resp.json() )
+            .then( data => { 
+                // console.log("fetch back from follow action",data)
+                    this.setState({
+                        ...this.state, non_followers: data
+                    })
+               
+            })
+        }
     }
 
     filterClients = (event) => {
@@ -77,6 +129,8 @@ class SearchBar extends React.Component{
         // console.log(follower.occupation, follower.hobbies, follower.user.full_name)
         const currentList = this.state.non_followers
         let newList = []
+
+        
         if (event.target.value !== ""){
 
              newList = this.state.non_followers.filter(follower => {
@@ -100,7 +154,7 @@ class SearchBar extends React.Component{
 
 
     render(){
-        console.log(this.state)
+        console.log(this.props)
         if(this.state.mounted){
 
 

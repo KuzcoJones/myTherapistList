@@ -151,8 +151,9 @@ class Profile extends React.Component{
     
     
     render(){
+        console.log(this.state)
         const { therapist } = this.state.profileInfo
-        if (this.state.renderState === true){
+        if (this.state.renderState === true && this.state.profileInfo.isTherapist === true){
             return(
                     <div>
                         <NavBar/>
@@ -191,7 +192,7 @@ class Profile extends React.Component{
                          </form>
                      </div>
 
-                     <SearchBar />
+                     <SearchBar profileInfo= {this.state.profileInfo} />
     
                     
     
@@ -220,6 +221,57 @@ class Profile extends React.Component{
                     <button onClick = {this.renderDefaultState} >Back</button>
                 </div>
             )
+        }
+
+        else if(this.state.renderState && this.state.profileInfo.isTherapist === false){
+                return(
+                    <div>
+                        <NavBar/>
+                <div>
+                    <button onClick ={this.renderEdit} >Edit</button>
+                     <div> 
+                     <Jumbotron className="profile-info" >
+                        
+                        <Image src="holder.js/171x180" rounded />
+
+                        <h3>Bio: {this.state.profileInfo.client.bio}</h3>
+
+                        <h3>Occupation: {this.state.profileInfo.client.occupation}</h3>
+
+                        <h3>Hobbies: {this.state.profileInfo.client.hobbies}</h3>
+
+                        {/* <h3>Specialties: {this.state.profileInfo.client.specialties}</h3> */}
+                        
+                        
+                     </Jumbotron>
+    
+                     <div id="newsfeed-timeline" >
+                     {/* map through list of followers and  */}
+                        {/* {this.newsFeedList()} */}
+                         <ul>
+                             {/* list of posts from list of all followers */}
+                         </ul>
+                     </div>
+    
+                     <div id="create-post-form" >
+                         {/* create a post fetch method onClick */}
+                         <form onSubmit= {(event) => this.createPost(event)} action="">
+                            <label htmlFor="posts">Create a Post</label>
+                             <input onChange = {(event) => this.postBody(event)} type="text" name="posts" id=""/>
+                             <input type="submit" value="post"/>
+                         </form>
+                     </div>
+
+                     <SearchBar profileInfo= {this.state.profileInfo} />
+                     
+    
+                    
+    
+    
+                 </div>
+                </div>
+             </div>
+                )
         }
 
         else {

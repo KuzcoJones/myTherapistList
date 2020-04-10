@@ -34,8 +34,9 @@ class ClientSU extends React.Component{
 
             if(data.error){
                 alert(data.error)}
+
             else { 
-                 
+                
                     localStorage.setItem('token', data.token)
                     this.props.profileInfo(data)
                     this.props.history.push('/home')
@@ -50,7 +51,7 @@ class ClientSU extends React.Component{
 
     render(){
 
-console.log(this.state)
+
         return(
             <div>
 
