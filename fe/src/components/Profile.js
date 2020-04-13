@@ -66,7 +66,7 @@ class Profile extends React.Component{
         )
 
 
-        console.log(this.state)
+        
         
 
         
@@ -166,7 +166,7 @@ class Profile extends React.Component{
     
     
     render(){
-        console.log(this.state)
+        
         const { therapist } = this.state.profileInfo
         if (this.state.renderState === true && this.state.profileInfo.isTherapist === true){
             return(
@@ -225,7 +225,7 @@ class Profile extends React.Component{
                 <div>
 
                     <form onSubmit= {this.saveEdit} action="" method="post" value="save" >
-                        <input onChange = {(event) => this.editData(event)} type="text" name="bio" id="" placeholder={this.state.profileInfo.therapist.bio}/>
+                        <input onChange = {(event) => this.editData(event)} type="text" name="bio" id="" placeholder={this.state.profileInfo.therapis0uydL8t.bio}/>
     
                         <input onChange = {(event) => this.editData(event)} type="text" name="location" id="" placeholder={this.state.profileInfo.therapist.location}/>
     

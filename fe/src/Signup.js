@@ -2,8 +2,6 @@ import React, { Component } from 'react'
 import {
 	withRouter
 } from 'react-router-dom';
-import ClientSU from './ClientSU';
-import TherapistSU from './TherapistSU';
 
 
 class Signup extends React.Component{
@@ -14,9 +12,21 @@ class Signup extends React.Component{
         }
     }
 
+    toggleTherapistForm = (event) => {
+        this.setState(prevState => ({
+            isTherapist: !prevState.isTherapist
+        }));
+    }
+
+    handleInputChange = (event) => {
+        this.setState({
+            ...this.state, [event.target.name]: event.target.value
+        })
+    }
+
     handleForm = (event) => {
         event.preventDefault()
-        console.log(this.state)
+        // console.log(this.state)
        
         const loginObj = {
             method: 'POST',
@@ -27,33 +37,32 @@ class Signup extends React.Component{
         fetch('http://localhost:3000/signup', loginObj)
         .then(resp => resp.json())
         .then(data => {
-            if(data.error){alert(data.error)}
+        
             
-            else { localStorage.setItem('token', data.token)
-                this.props.history.push('/home')
-                } 
+        
+
+            if(data.error){
+                alert(data.error)}
+            else { 
+                
+                    localStorage.setItem('token', data.token)
+                    
+                    
+                    if(this.state.isTherapist){
+                        this.props.history.push('/signup/therapist')}
+                    else{this.props.history.push('/signup/client')}
+                    
+                   
+            }
+
+            
             }
         ) 
-    }
-
-       
-
-    therapistToggle = () => {
-        
-        // either render therapist signup or client input fields default client
-        this.setState(prevState =>({
-            isTherapist: !prevState.isTherapist
-        }))
-    }
-
-    handleInputChange = (event) => {
-        this.setState({
-            ...this.state, [event.target.name]: event.target.value
-        })
-    }
+    
+}
 
     render(){
-        // console.log(this.state)
+        
         return(
             <div>
             <h1>Hello there</h1>
@@ -78,11 +87,7 @@ class Signup extends React.Component{
                 <div>
                     <input onChange={this.toggleTherapistForm} type="checkbox" name="isTherapist" id=""/>
                 </div>
-                <ClientSU handleInputChange={this.handleInputChange}/>
-            {/* {this.state.isTherapist === false ? <ClientSU /> : <TherapistSU/> } */}
-                
-
-                <input type="submit" value="Signup"/>
+                <input type="submit" value="Continue"/>
             </form>
             </div>
         )

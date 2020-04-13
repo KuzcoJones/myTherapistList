@@ -9,11 +9,7 @@ class ClientSU extends React.Component{
 
         }
     }
-    handleInputChange = (event) => {
-        this.setState({
-            ...this.state, [event.target.name]: event.target.value
-        })
-    }
+    
 
     handleForm = (event) => {
         event.preventDefault()
@@ -55,30 +51,26 @@ class ClientSU extends React.Component{
         return(
             <div>
 
-                <div>
-                    <h1>Hello Clients, Welcome to My ClientList</h1>
-                    <h3>Please Provide some information to improve your Experience</h3>
-                </div>
 
                 <div>
-                    <form onSubmit= {(event) => this.handleForm(event)} action="">
+                    
                             <label htmlFor="hobbies">Hobbies</label>
                         <div>
-                            <input onChange= {(event) => this.handleInputChange(event)} type="text" name="hobbies" id="" placeholder='Rock Climbing, Swimming, Tennis'/>
+                            <input onChange= {(event) => this.props.handleInputChange(event)} type="text" name="hobbies" id="" placeholder='Rock Climbing, Swimming, Tennis'/>
                         </div>
 
                             <label htmlFor="occupation">occupation</label>
                         <div>
-                            <input onChange= {(event) => this.handleInputChange(event)} type="text" name="occupation" id="" placeholder="Desk Job"/>
+                            <input onChange= {(event) => this.props.handleInputChange(event)} type="text" name="occupation" id="" placeholder="Desk Job"/>
                         </div>
 
                         <label htmlFor="bio">Biography</label>
                         <div>
-                        <textarea onChange= {(event) => this.handleInputChange(event)} name="bio" id="" cols="30" rows="10" maxLength='250'></textarea>
+                        <textarea onChange= {(event) => this.props.handleInputChange(event)} name="bio" id="" cols="30" rows="10" maxLength='250'></textarea>
                         </div>
-                        <input type="submit" value="Signup"/>
+                        {/* <input type="submit" value="Signup"/> */}
 
-                    </form>
+                    
                 </div>
             </div>
         )

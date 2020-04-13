@@ -1,17 +1,15 @@
 class UsersController < ApplicationController
+    wrap_parameters :user, include: [:username, :password]
+    
     def create
         
-        user = User.create!(
-            username: params['username'], 
-            password: params['password'],
-            full_name:params['full_name'], isTherapist: params['isTherapist']
-            )
-            
+        user = User.create!(user_params)
+        byebug
+        
         payload = { user_id: user.id }
         token = JWT.encode(payload, 'secret', 'HS256')
-
+        
         render json: { id: user.id, username: user.username, token: token}
-                
         end
 
     def show 
@@ -32,7 +30,7 @@ class UsersController < ApplicationController
 
         private
         def user_params
-            params.require(:user).permit(:username, :password, :full_name, :isTherapist)
+            params.require(:user).permit(:username, :password, :full_name, :isTherapist, :bio, :location, :services, :location, :specialty, :hobbies, :occupation)
 
         end
 

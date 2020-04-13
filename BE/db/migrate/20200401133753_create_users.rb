@@ -5,6 +5,12 @@ class CreateUsers < ActiveRecord::Migration[6.0]
       t.string :full_name
       t.string :password_digest
       t.boolean :isTherapist
+      t.string :bio
+      t.string :location
+      t.string :services
+      t.string :specialty
+      t.string :hobbies
+      t.string :occupation
 
       t.timestamps
     end
