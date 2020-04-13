@@ -12,7 +12,7 @@ class ClientsController < ApplicationController
             followed_client_list = followers_list.map{ |follow| follow.client_id }
 
             all_clients = Client.all.reject {|client| followed_client_list.include? client.id }
-
+            
             
 
 

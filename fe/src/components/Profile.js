@@ -24,6 +24,7 @@ class Profile extends React.Component{
     
     componentDidMount(){
         const token = localStorage.getItem('token')
+        
         const reqObj = {
             method: 'GET',
             headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`}
@@ -44,15 +45,28 @@ class Profile extends React.Component{
         }
       )
 
+    
         // fetch(`http://localhost:3000/clients`, reqObj)
         // .then(resp => resp.json())
-        // .then( data => console.log(data)
-        //         // non_followers => this.setState({
-        //         // ...this.state, non_followers: non_followers
-        //         // })
-    
-        // )
+        // .then(data => {
+        //     console.log("fetched data", data)
+        //     this.setState({
+        //         mounted:true, non_followers: data
+        //     })
+        // })
 
+        fetch(`http://localhost:3000/clients`, reqObj)
+        .then(resp => resp.json())
+        .then( data => {
+
+            this.setState({
+                ...this.state, non_followers: data
+                })
+            }
+        )
+
+
+        console.log(this.state)
         
 
         
@@ -124,6 +138,7 @@ class Profile extends React.Component{
         this.setState({
             ...this.state, renderState: true
         })
+
         const reqObj = {
             method: 'PATCH',
                 headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`},
@@ -262,7 +277,7 @@ class Profile extends React.Component{
                          </form>
                      </div>
 
-                     <SearchBar profileInfo= {this.state.profileInfo} />
+                     <SearchBar profileInfo= {this.state.non_followers} />
                      
     
                     

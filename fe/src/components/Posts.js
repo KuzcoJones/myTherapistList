@@ -14,28 +14,28 @@ class Posts extends React.Component{
     }
 
     componentDidMount(){
-        const token = localStorage.getItem('token')
+        // const token = localStorage.getItem('token')
         
-        const reqObj = {
-            method: 'GET',
-            headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`}
-        }
+        // const reqObj = {
+        //     method: 'GET',
+        //     headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`}
+        // }
         
-        fetch(`http://localhost:3000/posts`, reqObj)
-        .then(resp => resp.json())
-        .then(data => {
+        // fetch(`http://localhost:3000/posts`, reqObj)
+        // .then(resp => resp.json())
+        // .then(data => {
 
-            if(data.error){
-              alert(data.error)}
-              else{
+        //     if(data.error){
+        //       alert(data.error)}
+        //       else{
                
-                this.setState({
-                  ...this.state, posts: data.posts
-                  , renderState: true
-                })
-              }
-            }
-        )
+        //         this.setState({
+        //           ...this.state, posts: data.posts
+        //           , renderState: true
+        //         })
+        //       }
+        //     }
+        // )
     }
 
     deletePost = (event) => {

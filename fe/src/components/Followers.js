@@ -25,11 +25,16 @@ class Followers extends React.Component{
         fetch(`http://localhost:3000/followers`, reqObj)
         .then(resp => resp.json())
         .then( data => 
-            // console.log(data)
+            
                 this.setState({
                 ...this.state, followers: data, renderState:true
             })
         )
+
+            
+
+
+
     }
 
     deleteFollow = (event) => {
