@@ -21,7 +21,7 @@ class SearchBar extends React.Component{
         fetch(`http://localhost:3000/users`, reqObj)
         .then(resp => resp.json())
         .then(data => {
-            // console.log("fetched data", data)
+            console.log("fetched data", data)
             this.setState({
                 mounted:true, non_followers: data
             })
@@ -30,9 +30,58 @@ class SearchBar extends React.Component{
         
     }
 
-        non_follower_list = () => {
-            console.log(this.state.profileInfo.isTherapist)
+    non_follow_clients = () => {
+        if (this.props.profileInfo.isTherapist === true){
+
+            if (this.state.filteredList.length > 0){
+    
+                return this.state.filteredList.map(
+                    client => {
+                        return <li key={client.user.id}>{client.user.full_name}, occupation: {client.occupation}, 
+                             <button name={client.id} onClick={ (event) => this.follow(event)}>follow</button>
+                             <hr/> 
+                                </li>
+                    }
+                )
+            }
+            else{
+                return this.state.non_followers.map(
+                    client => {
+                        return <li key={client.user.id}>{client.user.full_name}, occupation: {client.occupation}, 
+                             <button name={client.id} onClick={ (event) => this.follow(event)}>follow</button>
+                             <hr/> 
+                                </li>
+                    }
+                )
+            }
         }
+
+        else {
+                if (this.state.filteredList.length > 0){
+        
+                    return this.state.filteredList.map(
+                        client => {
+                            return <li key={client.user.id}>{client.user.full_name}, occupation: {client.occupation}, 
+                                 <button name={client.id} onClick={ (event) => this.follow(event)}>follow</button>
+                                 <hr/> 
+                                    </li>
+                        }
+                    )
+                }
+                else{
+                    return this.state.non_followers.map(
+                        client => {
+                            return <li key={client.user.id}>{client.user.full_name}, occupation: {client.occupation}, 
+                                 <button name={client.id} onClick={ (event) => this.follow(event)}>follow</button>
+                                 <hr/> 
+                                    </li>
+                        }
+                    )
+                }
+            
+        }
+
+    }
 
 
 
@@ -105,7 +154,7 @@ class SearchBar extends React.Component{
 
 
     render(){
-        console.log(this.props.profileInfo)
+        console.log(this.props)
         if(this.state.mounted){
 
 

@@ -6,34 +6,34 @@ class UsersController < ApplicationController
         decoded_token = JWT.decode(token, 'secret', true, { algorithm: 'HS256'})
         user_id = decoded_token[0]['user_id']
         user = User.find(user_id)
-
+        
         if user.isTherapist
-
+            # get users that are clients
+            therapists = User.all.select{ |user| user.isTherapist === false}
             followers_list = Follower.select{|follow| follow.therapist_id === user.id }
-
-            followed_client_list = followers_list.map{ |follow| follow.client_id }
-
-            all_clients = User.all.reject {|client| followed_client_list.include? client.id }
-            byebug
-
-            render json: all_clients.to_json(
-                only: [:id, :hobbies, :occupation, :bio],
-                include: [user: {only: [:username, :full_name, :isTherapist]}]
-            )
-        else
-           
             
+            followed_client_list = followers_list.map{ |follow| follow.client_id }
+            
+            all_clients = User.all.reject {|client| followed_client_list.include? client.id }
+    byebug
+            
+            render json: all_clients.to_json(
+                only: [:id, :hobbies, :occupation, :bio]
+                )
+            else
+                # get all the users that are therapists
+            therapists = User.all.select{|user| user.isTherapist === true}
+
             followers_list = Follower.select{ |follow| follow.client_id === user.id }.uniq
 
             followed_therapist_list = followers_list.map{ |follow| follow.therapist_id }
 
-            all_users = User.all.reject {|therapist| followed_therapist_list.include? therapist.id }
-
+            all_users = therapists.reject {|therapist| followed_therapist_list.include? therapist.id }
+# byebug
            
 
             render json: all_users.to_json(
-                only: [:id, :location, :specialties, :services],
-                include: [user: {only: [:username, :full_name, :isTherapist]}]
+                only: [:id, :location, :specialties, :services]
             )
         end
     end

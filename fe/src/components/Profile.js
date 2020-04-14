@@ -231,7 +231,7 @@ class Profile extends React.Component{
                          </form>
                      </div>
 
-                     <SearchBar profileInfo= {this.state.non_followers} />
+                     <SearchBar profileInfo= {this.state.profileInfo} />
                      
     
                     

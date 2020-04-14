@@ -1,7 +1,6 @@
 Rails.application.routes.draw do
   resources :followers
-  resources :clients
-  resources :therapists
+  resources :users
   resources :posts
   
 
