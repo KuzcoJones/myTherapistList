@@ -6,8 +6,8 @@ class ClientsController < ApplicationController
         user = User.find(user_id)
 
         if user.isTherapist
-            therapist = Therapist.find_by(user: user)
-            followers_list = Follower.select{ |follow| follow.therapist_id === therapist.id }
+            
+            followers_list = Follower.select{ |follow| follow.therapist_id === user.id }
 
             followed_client_list = followers_list.map{ |follow| follow.client_id }
 
@@ -24,13 +24,12 @@ class ClientsController < ApplicationController
                     include: [user: {only: [:username, :full_name, :isTherapist]}]
                 )
         else
-            client = Client.find_by(user: user)
             
-            followers_list = Follower.select{ |follow| follow.client_id === client.id }.uniq
+            followers_list = Follower.select{ |follow| follow.client_id === usert.id }.uniq
 
             followed_therapist_list = followers_list.map{ |follow| follow.therapist_id }
 
-            all_users = Therapist.all.reject {|therapist| followed_therapist_list.include? therapist.id }
+            all_users = User.all.reject {|therapist| followed_therapist_list.include? therapist.id }
 
            
 

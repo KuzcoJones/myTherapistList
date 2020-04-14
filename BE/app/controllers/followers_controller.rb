@@ -6,8 +6,12 @@ class FollowersController < ApplicationController
         user = User.find(user_id)
 
         if user.isTherapist 
-            therapist = Therapist.find_by(user: user)            
+            therapist = Therapist.find_by(user: user)
+
+            # followers = user.client_relationships
+            byebug
             follows = Follower.select{|follow| follow.therapist_id === therapist.id }
+
             client_followers = follows.map{ |follower| follower.client_id }
 
             followers = client_followers.map{ |id| Client.find(id)}

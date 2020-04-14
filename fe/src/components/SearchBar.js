@@ -12,20 +12,20 @@ class SearchBar extends React.Component{
 
 
     componentDidMount(){
-        // const token = localStorage.getItem('token')
-        // const reqObj = {
-        //     method: 'GET',
-        //     headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`}
-        // }
+        const token = localStorage.getItem('token')
+        const reqObj = {
+            method: 'GET',
+            headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`}
+        }
 
-        // fetch(`http://localhost:3000/clients`, reqObj)
-        // .then(resp => resp.json())
-        // .then(data => {
-        //     console.log("fetched data", data)
-        //     this.setState({
-        //         mounted:true, non_followers: data
-        //     })
-        // })
+        fetch(`http://localhost:3000/user`, reqObj)
+        .then(resp => resp.json())
+        .then(data => {
+            console.log("fetched data", data)
+            this.setState({
+                mounted:true, non_followers: data
+            })
+        })
 
         
     }

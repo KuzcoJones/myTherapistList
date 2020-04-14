@@ -43,52 +43,12 @@ class Profile extends React.Component{
             })
           }
         }
-      )
-
-    
-        // fetch(`http://localhost:3000/clients`, reqObj)
-        // .then(resp => resp.json())
-        // .then(data => {
-        //     console.log("fetched data", data)
-        //     this.setState({
-        //         mounted:true, non_followers: data
-        //     })
-        // })
-
-        fetch(`http://localhost:3000/clients`, reqObj)
-        .then(resp => resp.json())
-        .then( data => {
-
-            this.setState({
-                ...this.state, non_followers: data
-                })
-            }
-        )
-
-
-        
-        
-
-        
+      ) 
     }
 
  
 
-    // icebox until further notice
-    // newsFeedList = () => {
-    //     const { followers } = this.state
-    //     const token = localStorage.getItem('token')
-    //     const reqObj = {
-    //         method: 'GET',
-    //         headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`}
-    //     }
-    //    return followers.map(
-    //        follow => fetch(`http://localhost:3000/followers/${follow.id}`, reqObj)
-    //        .then(resp => resp.json() )
-    //        .then(data => console.log(data))
-    //    )
-
-    // }
+   
 
     createPost = (e) => {
         e.preventDefault()
@@ -111,21 +71,13 @@ class Profile extends React.Component{
         })
     }
 
-    // profile = () => {
-    //     return <div>
-    //     <h2>{this.state.profileInfo.therapist.bio}</h2>
-    //                 <h2>{this.state.profileInfo.therapist.service}</h2>
-    //                 <h2>{this.state.profileInfo.therapist.specialty}</h2>
-    //     </div>
-    // }
+   
 
     
 
     
 
-    // newsfeed
-    // posts from all followed clients
-    
+   
     
     renderEdit = () => {
         this.setState({
@@ -166,7 +118,7 @@ class Profile extends React.Component{
     
     
     render(){
-        
+        console.log(this.state)
         const { therapist } = this.state.profileInfo
         if (this.state.renderState === true && this.state.profileInfo.isTherapist === true){
             return(
@@ -179,13 +131,13 @@ class Profile extends React.Component{
                         
                         <Image src="holder.js/171x180" rounded />
 
-                        <h3>Bio: {this.state.profileInfo.therapist.bio}</h3>
+                        <h3>Bio: {this.state.profileInfo.bio}</h3>
 
-                        <h3>Location: {this.state.profileInfo.therapist.location}</h3>
+                        <h3>Location: {this.state.profileInfo.location}</h3>
 
-                        <h3>Services: {this.state.profileInfo.therapist.services}</h3>
+                        <h3>Services: {this.state.profileInfo.services}</h3>
 
-                        <h3>Specialties: {this.state.profileInfo.therapist.specialties}</h3>
+                        <h3>Specialties: {this.state.profileInfo.specialty}</h3>
                         
                         
                      </Jumbotron>
@@ -249,11 +201,13 @@ class Profile extends React.Component{
                         
                         <Image src="holder.js/171x180" rounded />
 
-                        <h3>Bio: {this.state.profileInfo.client.bio}</h3>
+                        <h3>Bio: {this.state.profileInfo.bio}</h3>
 
-                        <h3>Occupation: {this.state.profileInfo.client.occupation}</h3>
+                        <h3>Occupation: {this.state.profileInfo.occupation}</h3>
 
-                        <h3>Hobbies: {this.state.profileInfo.client.hobbies}</h3>
+                        <h3>Hobbies: {this.state.profileInfo.hobbies}</h3>
+
+                        {/* <h3>LifeStyle: {this.state.profileInfo.lifestyle} </h3> */}
 
                         {/* <h3>Specialties: {this.state.profileInfo.client.specialties}</h3> */}
                         

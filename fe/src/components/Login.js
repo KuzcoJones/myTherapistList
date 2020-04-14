@@ -22,14 +22,14 @@ class Login extends React.Component{
         const token = localStorage.getItem('token')
         const reqObj = {
             method: 'POST',
-            headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`},
+            headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(this.state)
         }
     
         fetch('http://localhost:3000/login', reqObj)
         .then(resp => resp.json())
         .then(data => {
-            // console.log(data)
+            console.log(data)
             // recieve data back from login user 
             // set token to local storage
             // redirect to the user profile with that data 
@@ -37,9 +37,8 @@ class Login extends React.Component{
             if(data.error){
                 alert(data.error)}
                 else{
-                        console.log(data)
+                        // console.log(data)
                         localStorage.setItem('token', data.token)
-                        this.props.profileInfo(data)
                         this.props.history.push('/home')
                 }
             }

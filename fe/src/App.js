@@ -25,7 +25,7 @@ class App extends React.Component {
 
 
   componentDidMount(){
-    if(localStorage.token){
+    if(localStorage.token !== 'undefined'){
       const token = localStorage.getItem('token')
         const reqObj = {
             method: 'GET',
@@ -42,7 +42,7 @@ class App extends React.Component {
           else{
            
             this.setState({
-              profileInfo: data
+              profileInfo: data.user
             })
           }
         }
@@ -59,7 +59,7 @@ class App extends React.Component {
   }
 
 
-  profileInfo = (data) => {
+  loadProfileInfo = (data) => {
     this.setState({
         profileInfo: data
     })
@@ -77,7 +77,7 @@ class App extends React.Component {
   // Might can conditionally render shit in the NavBar also. 
 
   render(){
-    // console.log(this.state)
+    console.log(this.state)
     return(
       <div>
         <Router>
@@ -95,7 +95,7 @@ class App extends React.Component {
 
             <Route exact path='/signup/client' render={(props) => <ClientSU {...props} profileInfo={this.profileInfo}/>} />
 
-            <Route exact path='/home' render={ (props) => <Profile {...props} profileState = {this.state}/>} />
+            <Route exact path='/home' render={ (props) => <Profile {...props}loadProfileInfo = {this.profileInfo} profileInfo = {this.state}/>} />
 
             <Route exact path='/followers' render={ (props) => <Followers {...props} profileState = {this.state}/>} />
 
