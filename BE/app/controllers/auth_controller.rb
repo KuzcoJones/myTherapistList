@@ -2,35 +2,22 @@ class AuthController < ApplicationController
 
     def create
         user = User.find_by(username: params[:username])
+
+        # byebug
         
         
-        
-        if user && user.authenticate(params[:password])
-            # byebug
-            if user.isTherapist 
-                payload = { user_id: user.id }
-                
-                token = JWT.encode(payload, 'secret', 'HS256')
-                therapist = Therapist.find_by(user: user)
-                # render json: { id: user.id, isTherapist: user.isTherapist, username: user.username, therapist_id: therapist.id, token: token}
-                
-                render json: {token: token, isTherapist: user.isTherapist, therapist: therapist}
-                
-                
-
-            else
-
-                payload = { user_id: user.id}
-                client = Client.find_by(user: user)
-                token = JWT.encode(payload, 'secret', 'HS256')
-
-            render json: { token: token, isTherapist: user.isTherapist, client: client}
             
-            end
-            
+            if user && user.authenticate(params[:password])
+                if user.isTherapist === false
+            render json: user.to_json(
+                    only: [:id, :hobbies, :occupation, :isTherapist], include: [therapists: {only: [:username, :services, :specialty, :full_name, :bio]},
+                    therapist_posts:{only:[:user, :body]}])
 
             else 
-                render json: {error: 'Invalid Credtials'}, status: 401
+                render json: user.to_json(
+                    only: [:id, :services, :specialty, :bio, :isTherapist], include: [therapists: {only: [:username, :services, :specialty, :full_name, :bio]},
+                    therapist_posts:{only:[:user, :body]}])
+                end
             end
         end
     
@@ -48,13 +35,18 @@ class AuthController < ApplicationController
         user = User.find(user_id)
 
         if user 
-
+            User.find[user_id]
             if user.isTherapist 
 
-            therapist = Therapist.find_by(user: user)
+            
 
-            # make therapist and client, current_user to make it
-            render json: { id: user.id, isTherapist: user.isTherapist, username: user.username, therapist: therapist}
+            
+            render json: user.to_json(
+
+                only: [:id, :services, :specialty, :bio, :location], include: [clients: {only: [:username,:full_name, :bio]}]
+                # only: [:id, :services, :specialty, :bio, :location],
+                #  include: [clients:{only: [:username, :full_name, :occupation, :hobbies, :bio]} client_posts:{only: [body: user:]}]
+            )
 
             else
 

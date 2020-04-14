@@ -18,10 +18,11 @@ class Login extends React.Component{
 
     handleLogin = (event) => {
         event.preventDefault()
-    
+        // console.log(this.state)
+        const token = localStorage.getItem('token')
         const reqObj = {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
+            headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`},
             body: JSON.stringify(this.state)
         }
     
@@ -36,7 +37,7 @@ class Login extends React.Component{
             if(data.error){
                 alert(data.error)}
                 else{
-                    // console.log(data)
+                        console.log(data)
                         localStorage.setItem('token', data.token)
                         this.props.profileInfo(data)
                         this.props.history.push('/home')
@@ -54,6 +55,7 @@ class Login extends React.Component{
 
     
     render(){
+        // console.log(this.state)
         return(
             <div>
                 <div>

@@ -1,13 +1,13 @@
 class UsersController < ApplicationController
-    wrap_parameters :user, include: [:username, :password]
-    
+    wrap_parameters :user, include: [:username, :password,:full_name, :isTherapist, :bio, :location, :services, :location, :specialty, :hobbies, :occupation]
+
     def create
         
         user = User.create!(user_params)
-        byebug
         
         payload = { user_id: user.id }
         token = JWT.encode(payload, 'secret', 'HS256')
+        # byebug
         
         render json: { id: user.id, username: user.username, token: token}
         end
