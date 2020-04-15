@@ -28,7 +28,7 @@ class AuthController < ApplicationController
                 therapist_posts:{only:[:user_id, :body]}])
             else
                 render json: user.to_json(
-                    only: [:id, :bio, :services, :specialty, :bio, :isTherapist], include: [clients: {only: [:username, :hobbies, :occupation, :full_name, :bio]},
+                    only: [:id, :bio, :services, :specialty, :bio, :isTherapist, :location], include: [clients: {only: [:username, :hobbies, :occupation, :full_name, :bio]},
                     client_posts:{only:[:user, :body]}])
             end
         else

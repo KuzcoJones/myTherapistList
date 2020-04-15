@@ -9,16 +9,17 @@ class UsersController < ApplicationController
         
         if user.isTherapist
             # get users that are clients
-            therapists = User.all.select{ |user| user.isTherapist === false}
+            clients  = User.all.select{ |user| user.isTherapist === false}
+
             followers_list = Follower.select{|follow| follow.therapist_id === user.id }
             
             followed_client_list = followers_list.map{ |follow| follow.client_id }
             
-            all_clients = User.all.reject {|client| followed_client_list.include? client.id }
-    byebug
+            all_clients = clients.reject {|client| followed_client_list.include? client.id }
+    # byebug
             
             render json: all_clients.to_json(
-                only: [:id, :hobbies, :occupation, :bio]
+                only: [:full_name, :id, :hobbies, :occupation, :bio]
                 )
             else
                 # get all the users that are therapists
@@ -33,23 +34,24 @@ class UsersController < ApplicationController
            
 
             render json: all_users.to_json(
-                only: [:id, :location, :specialties, :services]
+                only: [:id, :full_name, :location, :specialty, :services]
             )
         end
     end
 
     def create
         
+        # byebug
         user = User.create!(user_params)
         
         payload = { user_id: user.id }
         token = JWT.encode(payload, 'secret', 'HS256')
-        # byebug
         
-        render json: { id: user.id, username: user.username, token: token}
+        render json: { user: user, id: user.id, username: user.username, token: token}
         end
 
     def show 
+        # byebug
         token = request.headers[:Authorization].split(' ')[1]
         
         decoded_token = JWT.decode(token, 'secret', true, { algorithm: 'HS256'})
@@ -57,9 +59,8 @@ class UsersController < ApplicationController
         user_id = decoded_token[0]['user_id']
 
         user = User.find(user_id)
-
         if user 
-            render json: { id: user.id, username: user.username, token: token}
+            render json: { user: user, id: user.id, username: user.username, token: token}
         else
             render json: {error: 'Invalid Token'}, status: 401
         end

@@ -11,39 +11,39 @@ class ClientSU extends React.Component{
     }
     
 
-    handleForm = (event) => {
-        event.preventDefault()
-        const token = localStorage.getItem('token')
+//     handleForm = (event) => {
+//         event.preventDefault()
+//         const token = localStorage.getItem('token')
        
-        const reqObj = {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`},
-            body: JSON.stringify(this.state)
-        }
+//         const reqObj = {
+//             method: 'POST',
+//             headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`},
+//             body: JSON.stringify(this.state)
+//         }
     
-        fetch('http://localhost:3000/clients', reqObj)
-        .then(resp => resp.json())
-        .then(data => {
-            // recieve data back from login user 
-            // set token to local storage
-            // redirect to the user profile with that data 
+//         fetch('http://localhost:3000/clients', reqObj)
+//         .then(resp => resp.json())
+//         .then(data => {
+//             // recieve data back from login user 
+//             // set token to local storage
+//             // redirect to the user profile with that data 
 
-            if(data.error){
-                alert(data.error)}
+//             if(data.error){
+//                 alert(data.error)}
 
-            else { 
+//             else { 
                 
-                    localStorage.setItem('token', data.token)
-                    this.props.profileInfo(data)
-                    this.props.history.push('/home')
+//                     localStorage.setItem('token', data.token)
+//                     this.props.profileInfo(data)
+//                     this.props.history.push('/home')
                    
-            }
+//             }
 
             
-            }
-        ) 
+//             }
+//         ) 
     
-}
+// }
 
     render(){
 

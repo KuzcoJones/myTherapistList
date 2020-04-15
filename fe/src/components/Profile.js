@@ -37,10 +37,18 @@ class Profile extends React.Component{
         if(data.error){
           alert(data.error)}
           else{
-            
-            this.setState({
-              ...this.state, profileInfo: data, renderState: true
-            })
+              if(data.isTherapist === true){
+
+                  console.log(data)
+                  this.setState({
+                    ...this.state, profileInfo: data, followers:data.clients, renderState: true
+                  })
+              }
+              else {
+                this.setState({
+                    ...this.state, profileInfo: data, followers:data.therapists, renderState: true
+                  })
+              }
           }
         }
       ) 
@@ -137,7 +145,7 @@ class Profile extends React.Component{
 
                         <h3>Services: {this.state.profileInfo.services}</h3>
 
-                        <h3>Specialties: {this.state.profileInfo.specialty}</h3>
+                        <h3>Specialty: {this.state.profileInfo.specialty}</h3>
                         
                         
                      </Jumbotron>

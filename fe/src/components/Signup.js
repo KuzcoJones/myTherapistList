@@ -39,7 +39,7 @@ class Signup extends React.Component{
        
 
     therapistToggle = () => {
-        
+        console.log(this.state)
         // either render therapist signup or client input fields default client
         this.setState(prevState =>({
             isTherapist: !prevState.isTherapist
@@ -53,7 +53,7 @@ class Signup extends React.Component{
     }
 
     render(){
-        // console.log(this.state)
+        console.log(this.state)
         return(
             <div>
             <h1>Hello there</h1>
@@ -76,10 +76,10 @@ class Signup extends React.Component{
 
                 <label htmlFor="isTherapist">Are you A Therapist?</label>
                 <div>
-                    <input onChange={this.toggleTherapistForm} type="checkbox" name="isTherapist" id=""/>
+                    <input onChange={this.therapistToggle} type="checkbox" name="isTherapist" id=""/>
                 </div>
-                <ClientSU handleInputChange={this.handleInputChange}/>
-            {/* {this.state.isTherapist === false ? <ClientSU /> : <TherapistSU/> } */}
+                {/* <ClientSU /> */}
+            {this.state.isTherapist === false ? <ClientSU handleInputChange={this.handleInputChange}/> : <TherapistSU handleInputChange={this.handleInputChange}/> }
                 
 
                 <input type="submit" value="Signup"/>

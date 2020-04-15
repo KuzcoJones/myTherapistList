@@ -20,8 +20,7 @@ class SearchBar extends React.Component{
 
         fetch(`http://localhost:3000/users`, reqObj)
         .then(resp => resp.json())
-        .then(data => {
-            // console.log("fetched data", data)
+        .then(data => { 
             this.setState({
                 mounted:true, non_followers: data
             })
@@ -31,7 +30,38 @@ class SearchBar extends React.Component{
     }
 
         non_follower_list = () => {
-            console.log(this.state.profileInfo.isTherapist)
+           
+            if (this.props.profileInfo.isTherapist === false){
+                // data from fetch
+                    return this.state.non_followers.map(non_follower => {
+                        return <div>
+                            
+                            <li>{non_follower.full_name} <br/>
+                            Services:{non_follower.services} <br/> 
+                            Specialty: {non_follower.specialty}
+                            </li> 
+                            <br/>
+                            <button name={non_follower.id} oncClick={this.follow} value='Follow' />
+                             </div>
+                        })
+                        
+
+            } else {
+                return this.state.non_followers.map(non_follower => {
+                    return <div key={non_follower.id}>
+
+
+                    <li>{non_follower.full_name} <br/>
+                    Hobbies: {non_follower.hobbies} <br/> 
+                    Ocuppation: {non_follower.occupation}
+                    </li>
+                    <button onClick={(event) => this.follow(event)}>Follow</button>
+                    <br/>
+                    <br/>
+                    </div>
+                })
+            }
+
         }
 
 
@@ -105,7 +135,7 @@ class SearchBar extends React.Component{
 
 
     render(){
-        console.log(this.props.profileInfo)
+        console.log(this.state)
         if(this.state.mounted){
 
 
@@ -126,7 +156,7 @@ class SearchBar extends React.Component{
                          <ul id="client-list">
                          <div >
                          <ul>
-                             {this.non_follow_clients()}
+                             {this.non_follower_list()}
                          </ul>
                      </div>
                             {/* {this.props.clients.map} */}

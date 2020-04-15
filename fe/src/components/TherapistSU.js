@@ -52,35 +52,31 @@ class TherapistSU extends React.Component{
         return(
             <div>
 
-                <div>
-                    <h1>Hello Massage Therapist</h1>
-                    <h3>Please Provide some information</h3>
-                </div>
 
                 <div>
-                    <form onSubmit= {(event) => this.handleForm(event)} action="">
+                    {/* <form onSubmit= {(event) => this.handleForm(event)} action=""> */}
                             <label htmlFor="location">Location</label>
                         <div>
-                            <input onChange= {(event) => this.handleInputChange(event)} type="text" name="location" id="" placeholder='City, State'/>
+                            <input onChange= {(event) => this.props.handleInputChange(event)} type="text" name="location" id="" placeholder='City, State'/>
                         </div>
 
                             <label htmlFor="services">Services</label>
                         <div>
-                            <input onChange= {(event) => this.handleInputChange(event)} type="text" name="services" id="" placeholder="Deep Tissue, Swedish, Thai"/>
+                            <input onChange= {(event) => this.props.handleInputChange(event)} type="text" name="services" id="" placeholder="Deep Tissue, Swedish, Thai"/>
                         </div>
 
                             <label htmlFor="specialties">Specialty</label>
                         <div>
-                            <input onChange= {(event) => this.handleInputChange(event)} type="text" name="specialties" id="" placeholder="Swedish" />
+                            <input onChange= {(event) => this.props.handleInputChange(event)} type="text" name="specialty" id="" placeholder="Swedish" />
                         </div>
 
                         <label htmlFor="bio">Biography</label>
                         <div>
-                        <textarea onChange= {(event) => this.handleInputChange(event)} name="bio" id="" cols="30" rows="10" maxLength='250'></textarea>
+                        <textarea onChange= {(event) => this.props.handleInputChange(event)} name="bio" id="" cols="30" rows="10" maxLength='250'></textarea>
                         </div>
-                        <input type="submit" value="Signup"/>
+                        {/* <input type="submit" value="Signup"/> */}
 
-                    </form>
+                    {/* </form> */}
                 </div>
             </div>
         )
